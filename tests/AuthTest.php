@@ -15,6 +15,14 @@ class AuthTest extends TestCase {
 		    'clientId'      => "webapp",
 		    'clientSecret'  => "CV9e8WbKT8Xe9T4FBi3RyF1J6eIJxwpt",
 		]);
+		
+		$this->assertThat(
+			$provider, 
+			$this->logicalNot(
+				$this->isInstanceOf("CoinsTrackerProvider")
+			));
+		$this->assertObjectHasAttribute('clientId', $provider);
+		$this->assertObjectHasAttribute('clientSecret', $provider);
 
 		return $provider;
 	}
@@ -39,9 +47,12 @@ class AuthTest extends TestCase {
 	    ]);
 	    
 	    $this->assertEquals(200, $response->getStatusCode());
-	    
-	    $tokenInfo = json_decode( $response->getContent() );
-
+	    $this->assertJson($response->getContent());
+		
+		$tokenInfo = json_decode( $response->getContent() );
+	    $this->assertObjectHasAttribute("access_token", $tokenInfo, "Missing access token");
+		$this->assertTrue( !empty($tokenInfo->access_token), "Empty access token" );
+		
 	    return $tokenInfo->access_token;
 	}
 
@@ -55,10 +66,10 @@ class AuthTest extends TestCase {
 	public function testProtectedRequest($access_token){
 		
 		//test if I can access without an access token
-	    $response = $this->call("GET", "/api/v1/users" );
-	    $this->assertEquals( 401, $response->getStatusCode() );
+	    $response = $this->call("GET", "/api/v1/expenses" );
+	    $this->assertEquals( 400, $response->getStatusCode() );
 
-	    $response = $this->call("GET", "/api/v1/users", [
+	    $response = $this->call("GET", "/api/v1/expenses", [
 	    	"access_token" => $access_token
 	    ]);
 		$this->assertEquals( 200, $response->getStatusCode() );

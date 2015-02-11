@@ -20,6 +20,19 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
+//API
+Route::group(
+	[
+		'before' => 'oauth', 
+		'prefix' => 'api/v1'
+	], 
+	function(){
+		// expenses controller
+		Route::resource('expenses','Api\V1\ExpensesController');
+
+	}
+);
+
 Route::post('oauth/access_token', function() {
     return Response::json(Authorizer::issueAccessToken());
 });

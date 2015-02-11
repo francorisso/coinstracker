@@ -3,9 +3,9 @@
 use League\OAuth2\Client\Provider\CoinsTrackerProvider;
 use App\Models\User;
 
-class UsersTest extends TestCase {
+class UsersTest  {
 
-	public function atestCreateUser(){
+	public function testCreateUser(){
 		$user = [
 			"name" => "Franco Risso",
 			"email" => "franco@720desarrollos.com",
