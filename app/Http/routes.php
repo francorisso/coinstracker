@@ -27,9 +27,11 @@ Route::group(
 		'prefix' => 'api/v1'
 	], 
 	function(){
-		// expenses controller
-		Route::resource('expenses','Api\V1\ExpensesController');
+		// Expenses controller
+		Route::resource('expenses', 'Api\V1\ExpensesController');
 
+		// Users controller
+		Route::resource('users', 'Api\V1\UsersController');
 	}
 );
 

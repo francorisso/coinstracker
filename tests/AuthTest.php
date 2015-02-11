@@ -52,7 +52,7 @@ class AuthTest extends TestCase {
 		$tokenInfo = json_decode( $response->getContent() );
 	    $this->assertObjectHasAttribute("access_token", $tokenInfo, "Missing access token");
 		$this->assertTrue( !empty($tokenInfo->access_token), "Empty access token" );
-		
+
 	    return $tokenInfo->access_token;
 	}
 
@@ -63,7 +63,7 @@ class AuthTest extends TestCase {
 	* @depends testGetAccessToken
 	* @return void
 	*/
-	public function testProtectedRequest($access_token){
+	public function testProtectedRequest( $access_token ){
 		
 		//test if I can access without an access token
 	    $response = $this->call("GET", "/api/v1/expenses" );
