@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller {
+	use \App\Traits\AuthTrait;
 
 	private $validFields = [
 		"show" => [ "name", "email" ],
@@ -62,6 +63,12 @@ class UsersController extends Controller {
 	 */
 	public function update(Request $request, $id)
 	{
+		//only allow same user here
+		$user_id = $this->getUserByAccessToken();
+		if( $user_id != $id ){
+			return response()->json("User not requested", 401);
+		}
+
 		$fields = $request->input("fields");
 		if(empty($fields)){
 			abort(400, "Missed fields parameters");
@@ -70,7 +77,7 @@ class UsersController extends Controller {
 		// means that if there is a field not in the valid ones.
 		$fieldsDiff = array_diff(array_keys($fields), $this->validFields["update"]);
 		if( !empty( $fieldsDiff ) ){
-			abort(404, "Invalid Fields: ".implode(",",$fieldsDiff));
+			abort(400, "Invalid Fields: ".implode(",",$fieldsDiff));
 		}
 
 		$user = User::find( $id );

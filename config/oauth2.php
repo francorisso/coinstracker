@@ -78,17 +78,20 @@ return [
         'password' => [
             'class' => '\League\OAuth2\Server\Grant\PasswordGrant',
             'callback' => function($username, $password) {
-                return Auth::validate([
+                $isValid = Auth::validate([
                     'email'    => $username,
                     'password' => $password,
                 ]);
+                if( $isValid ) {
+                    $user = \App\Models\User::where("email",$username)->first();
+                    return $user->id;
+                } else {
+                    return false;
+                }
+                
             },
             'access_token_ttl' => 3600
         ],
-        'client_credentials' => [
-            'class' => '\League\OAuth2\Server\Grant\ClientCredentialsGrant',
-            'access_token_ttl' => 3600
-        ]
     ],
 
     /*
