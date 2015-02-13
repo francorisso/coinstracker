@@ -14,6 +14,33 @@ class UsersController extends Controller {
 		"update" => [ "name", "email", "password" ]
 	];
 
+	public function store(Request $request){
+		$data["name"] = $request->input("name");
+		$data["email"] = $request->input("email");
+		$data["password"] = $request->input("password");
+
+		$valid = \Validator::make($data, [
+			'name' => 'required|max:255',
+			'email' => 'required|email|max:255|unique:users',
+			'password' => 'required|confirmed|min:6',
+		]);
+		
+		if(!$valid){
+			return response()->json(json_encode(["error_message"=>"Invalid fields"]),400);
+		}
+		
+		$user = User::where("email",$data["email"])->first();
+		if(!empty($user)){
+			return response()->json(json_encode(["error_message"=>"A user with that email already exists"]),400);	
+		}
+
+		return User::create([
+			'name' => $data['name'],
+			'email' => $data['email'],
+			'password' => bcrypt($data['password']),
+		]);
+	}
+
 	/**
 	 * Returns a JSON with user information
 	 * Node: GET /users/{user_id}

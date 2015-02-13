@@ -1,20 +1,66 @@
-<div class="list">
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Description</th>
-				<th>Date</th>
-				<th>Amount</th>
-				<th width="50px">&nbsp;</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="expense in expenses">
-				<td>{{ expense.description }}</td>
-				<td>{{ expense.date + " " + expense.hour + ":" + expense.minute }} hs</td>
-				<td>{{ expense.amount }}</td>
-				<td width="50px">&nbsp;</td>
-			</tr>
-		</tbody>
-	</table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Report</div>
+                <div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-12">
+								<h3>Choose a date</h3>
+							</div>
+							<div class="col-md-9">
+								<form name="formFilter"
+								ng-submit="submit()"
+								novalidate>
+							        <div class="row">
+							        	<div class="col-md-4">
+									        <select class="form-control" ng-model="filters.month" required>
+									            <option ng-repeat="month in months" value="{{ month.number }}">
+									            	{{ month.name }}
+									            </option>
+									        </select>
+									    </div>
+									    <div class="col-md-4">
+									        <select class="form-control" ng-model="filters.year" required>
+									            <option ng-repeat="year in years" value="{{ year }}">
+									            	{{ year }}
+									            </option>
+									        </select>
+									    </div>
+									    <div class="col-md-4">
+								        	<button class="btn btn-primary" type="submit">Filter</button>
+								        </div>
+								    </div>
+							        
+							    </form>
+							</div>
+							<div class="col-md-3">
+							    <button type="button" class="btn btn-default pull-right" aria-label="Left Align" ng-click="print('reportTable')">
+									<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+								</button>
+							</div>
+				    </div>
+				    <div id="reportTable" >
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Week</th>
+								<th>Total</th>
+								<th>Daily Avg.</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="expense in expenses">
+								<td>{{ expense.week + 1 }}</td>
+								<td>{{ expense.total | currency  }}</td>
+								<td>{{ expense.avg | currency }}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

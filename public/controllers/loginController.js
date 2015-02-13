@@ -7,8 +7,9 @@
 		function( $scope, $http, $cookies, $location ){
 			$scope.fields = {
 			};
-			
+			$scope.errors = [];
 			$scope.submit = function(){
+				$scope.errors = [];
 				if( $scope.loginForm.$valid==true ){
 					$scope.fields._token = $('#_token').val();
 					$http.post("/ajax/authorize", $scope.fields)
@@ -17,7 +18,7 @@
 						$location.url("/expenses");
 					})
 					.error(function(data){
-						window.alert( data.error_description );
+						$scope.errors.push( data.error_description );
 					});
 
 				} else {

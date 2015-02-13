@@ -6231,3 +6231,17 @@ label,
 .checkbox label {
   font-weight: 300;
 }
+
+
+.time-select {
+  width: 200px;
+  height: 50px;
+  float: left;
+  font-size: 36px;
+  line-height: 50px;
+  text-align: center;
+}
+
+#reportTable{
+  margin-top: 20px;
+}

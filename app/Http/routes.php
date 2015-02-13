@@ -32,14 +32,9 @@ Route::group(
 	}
 );
 
-Route::get('/', 'AppController@index');
-Route::get('/{page}', 'AppController@index')
-->where('page','[a-zA-Z0-9]+');
-Route::get('/{page}/{subpage}', 'AppController@index')
-->where('page','[a-zA-Z0-9]+')
-->where('subpage','[a-zA-Z0-9]+');
-
 //API
+Route::post('api/v1/users/create', 'Api\V1\UsersController@store');
+
 Route::group(
 	[
 		'before' => 'oauth', 
@@ -52,6 +47,8 @@ Route::group(
 		});
 
 		// Expenses controller
+		Route::get('expenses/weekly', 'Api\V1\ExpensesController@weekly');
+		Route::post('expenses/delete/{id}', 'Api\V1\ExpensesController@destroy');
 		Route::resource('expenses', 'Api\V1\ExpensesController');
 
 		// Users controller
@@ -62,3 +59,17 @@ Route::group(
 Route::post('oauth/access_token', function() {
     return Response::json(Authorizer::issueAccessToken());
 });
+
+Route::get('/', 'AppController@index');
+
+Route::get('/{page}', 'AppController@index')
+->where('page','[a-zA-Z0-9]+');
+
+Route::get('/{page}/{subpage}', 'AppController@index')
+->where('page','[a-zA-Z0-9]+')
+->where('subpage','[a-zA-Z0-9]+');
+
+Route::get('/{page}/{subpage}/{subsub}', 'AppController@index')
+->where('page','[a-zA-Z0-9]+')
+->where('subpage','[a-zA-Z0-9]+')
+->where('subsub','[a-zA-Z0-9]+');

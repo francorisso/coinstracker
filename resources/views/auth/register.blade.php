@@ -1,51 +1,53 @@
-@extends('app')
-
-@section('content')
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-heading">Register</div>
 				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+					
+					<div class="alert alert-danger" ng-show="errors.length">
+						<strong>Whoops!</strong> There were some problems with your input.<br><br>
+						<ul>
+							<li ng-repeat="error in errors">{{ error }}</li>
+						</ul>
+					</div>
 
-					<form class="form-horizontal" role="form" method="POST" action="/auth/register">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<form class="form-horizontal" role="form" 
+					name="formRegister"
+					ng-submit="submit()"
+					novalidate
+					>
+						<input type="hidden" name="_token" id="_token" value="[[ csrf_token() ]]">
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Name</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
+								<input type="text" class="form-control" name="name" 
+								ng-model="fields.name" value="{{ fields.name }}" required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+								<input type="email" class="form-control" name="email" 
+								ng-model="fields.email" value="{{ fields.email }}" required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Password</label>
 							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
+								<input type="password" class="form-control" name="password"
+								ng-model="fields.password" required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Confirm Password</label>
 							<div class="col-md-6">
-								<input type="password" class="form-control" name="password_confirmation">
+								<input type="password" class="form-control" name="password_confirmation"
+								ng-model="fields.password_confirmation" required>
 							</div>
 						</div>
 
@@ -54,6 +56,7 @@
 								<button type="submit" class="btn btn-primary">
 									Register
 								</button>
+								<a href="/login">Already in? Login</a>
 							</div>
 						</div>
 					</form>
@@ -62,4 +65,3 @@
 		</div>
 	</div>
 </div>
-@endsection

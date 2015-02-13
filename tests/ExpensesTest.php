@@ -283,7 +283,7 @@ class ExpensesTest extends TestCase {
     	$expenses = [];
     	for($i=0; $i<10; $i++){
     		$expenses[] = [[
-    			"date" 			=> date("Y-m-d"),
+    			"date" 			=> date("Y-m-d",strtotime("-".rand(0,180)."days")),
     			"hour" 			=> rand(0, 23),
     			"minute"		=> rand(0, 59),
     			"description" 	=> "This is a description #".$i,

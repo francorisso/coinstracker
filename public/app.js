@@ -4,6 +4,7 @@
 		"ngRoute", 
 		"ngCookies",
 		"LoginController", 
+		"RegisterController", 
 		"HomeController",
 		"ExpensesController"
 	]);
@@ -38,12 +39,24 @@
 			templateUrl: "/ajax/auth/login",
 			controller: "LoginCtrl"
 		})
+		.when("/register", {
+			templateUrl: "/ajax/auth/register",
+			controller: "RegisterCtrl"
+		})
 		.when("/expenses",{
 			templateUrl: "/template/expenses/home.html",
 			controller: "ExpensesCtrl"
 		})
 		.when("/expenses/add",{
-			templateUrl: "/template/expenses/add.html",
+			templateUrl: function(){
+				return "/template/expenses/add.html"
+			},
+			controller: "ExpensesAddCtrl"
+		})
+		.when("/expenses/add/:id",{
+			templateUrl: function(params) {
+				return "/template/expenses/add.html";
+		    },
 			controller: "ExpensesAddCtrl"
 		})
 		.when("/expenses/weekly",{

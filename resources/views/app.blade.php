@@ -58,6 +58,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-cookies.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/controllers/loginController.js"></script>
+	<script type="text/javascript" src="/controllers/registerController.js"></script>
 	<script type="text/javascript" src="/controllers/homeController.js"></script>
 	<script type="text/javascript" src="/controllers/expensesController.js"></script>
 	<script type="text/javascript" src="/app.js"></script>
