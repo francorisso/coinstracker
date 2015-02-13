@@ -90,6 +90,17 @@ class UsersController extends Controller {
 	}
 
 	/**
+	 * Get access token
+	 */
+	public function accessToken( Request $request ){
+		$username = $request->input("email");
+		$password = $request->input("password");
+		
+		return response()->json( $this->getAccessToken( $username, $password) );
+	}
+
+
+	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id

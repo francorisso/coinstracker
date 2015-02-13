@@ -91,7 +91,7 @@ class UsersTest extends TestCase {
 		$userNew = User::where( "email", $user["email"] )->first();
 		$this->assertEmpty( $userNew );
 
-		$this->call("post", "/auth/register",array_merge([
+		$this->call("post", "/ajax/auth/register",array_merge([
 			"_token" => csrf_token(),
 			"password_confirmation" => "franco123"
 		], $user));

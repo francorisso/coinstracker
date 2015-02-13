@@ -11,14 +11,33 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Blade::setEscapedContentTags('[[', ']]');
+Blade::setContentTags('[[[', ']]]');
 
-Route::get('home', 'HomeController@index');
+//For ajax requests
+Route::group(
+	[
+		'prefix' => 'ajax'
+	], 
+	function(){
+		Route::get('/', function(){
+		});
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+		Route::controllers([
+			'auth' => 'Auth\AuthController',
+			'password' => 'Auth\PasswordController',
+		]);
+
+		Route::post("authorize", "Api\V1\UsersController@accessToken");
+	}
+);
+
+Route::get('/', 'AppController@index');
+Route::get('/{page}', 'AppController@index')
+->where('page','[a-zA-Z0-9]+');
+Route::get('/{page}/{subpage}', 'AppController@index')
+->where('page','[a-zA-Z0-9]+')
+->where('subpage','[a-zA-Z0-9]+');
 
 //API
 Route::group(
@@ -27,6 +46,11 @@ Route::group(
 		'prefix' => 'api/v1'
 	], 
 	function(){
+		
+		Route::get('/validToken', function(){
+			response()->json( json_encode(["message"=>"not valid"]), 400);
+		});
+
 		// Expenses controller
 		Route::resource('expenses', 'Api\V1\ExpensesController');
 

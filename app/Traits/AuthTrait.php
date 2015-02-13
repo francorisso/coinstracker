@@ -22,11 +22,13 @@ trait AuthTrait {
 		    'username'	     => $username,
 		    'password'		 => $password
 	    ];
-	    $response = $this->call("POST", $provider->urlAccessToken(), $params);
+	    $tokenInfo = \Authorizer::issueAccessToken($params);
 
-	    $tokenInfo = json_decode( $response->getContent() );
+	    //$response = $this->call("POST", $provider->urlAccessToken(), $params);
+
+	    //$tokenInfo = json_decode( $response->getContent() );
 	    
-	    return $tokenInfo->access_token;
+	    return $tokenInfo['access_token'];
 	}
 
 	/**
@@ -49,30 +51,6 @@ trait AuthTrait {
 		->first();
 		
 		$id = $user->owner_id;
-		return $id;
-	}
-
-	/**
-	 * Returns a user id based on access_token
-	 */
-	public function getUserByAccessToken2( $accessToken = null )
-	{
-		if(empty($accessToken)){
-			$accessToken = \Request::input("access_token");
-		}
-		if(empty($accessToken)){
-			abort(400, "Missing access token");
-		}
-
-		$user = \DB::table('oauth_sessions')
-		->select('owner_id')
-		->join("oauth_access_tokens", 'oauth_access_tokens.session_id', '=', 'oauth_sessions.id')
-		->where('oauth_access_tokens.id', $accessToken)
-		->where('oauth_sessions.owner_type', 'user')
-		->first();
-
-		$id = $user->owner_id;
-
 		return $id;
 	}
 
