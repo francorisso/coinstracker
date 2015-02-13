@@ -114,7 +114,7 @@
 						});
 					} else {
 						$http.post("/api/v1/expenses", { 
-							fields: $scope.fields, 
+							fields: fields, 
 							access_token: $scope.accessToken
 						})
 						.success(function(data){
